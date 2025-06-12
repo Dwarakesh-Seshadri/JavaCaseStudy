@@ -33,26 +33,33 @@ public class SandwichFileRepository implements  SandwichRepository{
 
     @Override
     public void add(Sandwich sw) {
-            sandwichList.add(sw);
-            StringBuilder sandwich = new StringBuilder();
-            sandwich.append(sw.getItemNumber())
-                .append(";")
-                .append(sw.getTypeNed())
-                .append(";")
-                .append(sw.getNameNed())
-                .append(";")
-                .append(sw.getTypeFr())
-                .append(";")
-                .append(sw.getNamefr())
-                .append(";")
-                .append(sw.getPrice())
-                .append("\n");
-
+        sandwichList.add(sw);
         Path path = Paths.get("\\temp\\javacourses\\Sandwiches.csv");
         try (BufferedWriter writer =
                      Files.newBufferedWriter(path, Charset.forName("UTF-8")
-                             ,StandardOpenOption.CREATE)) {
-            writer.write(String.valueOf(sandwichList));
+                             ,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE))
+        {
+            for (Sandwich s : sandwichList)
+            {
+                StringBuilder sandwich = new StringBuilder();
+                sandwich.append(s.getTypeNed())
+                        .append(";")
+                        .append(s.getNameNed())
+                        .append(";")
+                        .append(s.getTypeFr())
+                        .append(";")
+                        .append(s.getNamefr())
+                        .append(";")
+                        .append(s.isVeggie()? "yes":"no")
+                        .append(";")
+                        .append(s.isBreadType()? "yes":"no")
+                        .append(";")
+                        .append(s.getPrice())
+                        .append("\n");
+
+                writer.write(String.valueOf(sandwich));
+
+            }
         } catch (IOException e) {
 // Handle file I/O exception...
         }
@@ -66,7 +73,35 @@ public class SandwichFileRepository implements  SandwichRepository{
 
     @Override
     public void delete(Sandwich sw) {
+        sandwichList.remove(sw);
+        Path path = Paths.get("\\temp\\javacourses\\Sandwiches.csv");
+        try (BufferedWriter writer =
+                     Files.newBufferedWriter(path, Charset.forName("UTF-8")
+                             ,StandardOpenOption.WRITE,StandardOpenOption.TRUNCATE_EXISTING,StandardOpenOption.CREATE))
+        {
+            for (Sandwich s : sandwichList)
+            {
+                StringBuilder sandwich = new StringBuilder();
+                sandwich.append(s.getTypeNed())
+                        .append(";")
+                        .append(s.getNameNed())
+                        .append(";")
+                        .append(s.getTypeFr())
+                        .append(";")
+                        .append(s.getNamefr())
+                        .append(";")
+                        .append(s.isVeggie()? "yes":"no")
+                        .append(";")
+                        .append(s.isBreadType()? "yes":"no")
+                        .append(";")
+                        .append(s.getPrice())
+                        .append("\n");
 
+                writer.write(String.valueOf(sandwich));
+            }
+        } catch (IOException e) {
+// Handle file I/O exception...
+        }
     }
 
     @Override

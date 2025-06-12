@@ -55,8 +55,7 @@ public class OrderFileRepository implements OrderRepository{
     @Override
     public void loadAll() {
         Path path = Paths.get("\\temp\\javacourses\\savedorders.csv");
-        try {
-            BufferedReader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
+        try (BufferedReader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"))){
             String line = null;
             while ((line=reader.readLine())!=null){
                 orderList.add(parseOrder(line));
