@@ -3,11 +3,13 @@ package be.admin.abis.course.repository;
 import be.admin.abis.course.model.Sandwich;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -31,6 +33,29 @@ public class SandwichFileRepository implements  SandwichRepository{
 
     @Override
     public void add(Sandwich sw) {
+            sandwichList.add(sw);
+            StringBuilder sandwich = new StringBuilder();
+            sandwich.append(sw.getItemNumber())
+                .append(";")
+                .append(sw.getTypeNed())
+                .append(";")
+                .append(sw.getNameNed())
+                .append(";")
+                .append(sw.getTypeFr())
+                .append(";")
+                .append(sw.getNamefr())
+                .append(";")
+                .append(sw.getPrice())
+                .append("\n");
+
+        Path path = Paths.get("\\temp\\javacourses\\Sandwiches.csv");
+        try (BufferedWriter writer =
+                     Files.newBufferedWriter(path, Charset.forName("UTF-8")
+                             ,StandardOpenOption.CREATE)) {
+            writer.write(String.valueOf(sandwichList));
+        } catch (IOException e) {
+// Handle file I/O exception...
+        }
 
     }
 
@@ -47,11 +72,22 @@ public class SandwichFileRepository implements  SandwichRepository{
     @Override
     public void loadAll() {
         Path path = Paths.get("\\temp\\javacourses\\Sandwiches.csv");
+        Sandwich.counter = 0;
         try {
             BufferedReader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
             String line = null;
+            boolean sandWichFound = false;
+
             while ((line=reader.readLine())!=null){
-                sandwichList.add(parseSandwich(line));
+                Sandwich sandwich = parseSandwich(line);
+                for (Sandwich sw : sandwichList){
+                    if (sw.getItemNumber() == (sandwich.getItemNumber())){
+                        sandWichFound = true;
+                    }
+                }
+                if (!sandWichFound){
+                    sandwichList.add(sandwich);
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());;
@@ -88,5 +124,8 @@ public class SandwichFileRepository implements  SandwichRepository{
         return null;
     }
 
+    public void showList(){
+                sandwichList.forEach(System.out::println);
+    }
 
 }

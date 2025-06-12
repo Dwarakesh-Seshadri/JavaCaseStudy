@@ -13,8 +13,9 @@ public class Report {
 
     public static void printOrders(List<Order> orderList){
 
-        try {
-            PrintWriter printFile = new PrintWriter(new FileWriter("\\temp\\javacourses\\orderrequest.txt"));
+        try (PrintWriter printFile = new PrintWriter(new FileWriter("\\temp\\javacourses\\orderrequest.txt")))
+        {
+
             printFile.println("-".repeat(100));
             printFile.printf("%-42s%15s%43s\n"," ","Order Overview"," ");
             printFile.println("-".repeat(100));
@@ -23,15 +24,17 @@ public class Report {
         orderList.stream()
                     .sorted(Comparator.comparing(order -> order.getP().getFirstName()))
                     .forEach(order -> printFile.printf("%-40s%-20s%-20s%-20s\n",
-                            order.getSw().getNameNed() +
-                            order.getVeggie() +
-                            order.getBreadType() +
+                            order.getSw().getNameNed(),
+                            order.getVeggie(),
+                            order.getBreadType(),
                             order.getP().getFirstName()));
+
 
         } catch (
                 IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
 

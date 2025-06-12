@@ -9,4 +9,5 @@ public interface SandwichRepository {
     public void loadAll();
     public Sandwich findByName(String name);
     public Sandwich findById(int id);
+    public void showList();
 }

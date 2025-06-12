@@ -11,7 +11,7 @@ public class Sandwich {
     private boolean veggie;
     private boolean breadType;
     private double price;
-    private static int counter = 0;
+    public static int counter = 0;
 
     public int getItemNumber() {
         return itemNumber;

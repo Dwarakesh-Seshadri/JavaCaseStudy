@@ -5,8 +5,18 @@ import be.admin.abis.course.enumeration.Language;
 import java.util.Objects;
 
 public class Person {
+    private int personNumber;
     private String firstName;
     private Language language;
+    public static int personCounter = 0;
+
+    public int getPersonNumber() {
+        return personNumber;
+    }
+
+    public void setPersonNumber(int personNumber) {
+        this.personNumber = personNumber;
+    }
 
     public Language getLanguage() {
         return language;
@@ -21,6 +31,7 @@ public class Person {
     public Person(String firstName,Language language) {
         this.firstName = firstName;
         this.language = language;
+        personNumber = ++personCounter;
     }
 
     public String getFirstName() {

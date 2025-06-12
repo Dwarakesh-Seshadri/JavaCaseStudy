@@ -6,6 +6,10 @@ public class Order {
     private String veggie;
     private String breadType;
 
+    public Order() {
+
+    }
+
     public String getVeggie() {
         return veggie;
     }
